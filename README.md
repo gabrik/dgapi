@@ -1,13 +1,13 @@
 openshift-mongo-flask-example
 =============================
 
-This is the code to go along with the [OpenShift blog piece](https://openshift.redhat.com/community/blogs/rest-web-services-with-python-mongodb-and-spatial-data-in-the-cloud) on how to use Flask (python) with MongoDB to create a REST like web service with spatial data
+This is the code to go along with the [OpenShift blog piece](https://www.openshift.com/blogs/rest-web-services-with-python-mongodb-and-spatial-data-in-the-cloud-part-2) on how to use Flask (python) with MongoDB to create a REST like web service with spatial data
 **Please note that this only works with Python-2.6 cartridge**
 
 Running on OpenShift
 ----------------------------
 
-Create an account at http://openshift.redhat.com/
+Create an account at https://www.openshift.com
 
 Create a python application with MongoDB
 
@@ -22,7 +22,7 @@ or you can do this
     git push
     
 To add the data to the MongoDB instance please follow the instructions on this blog:
-[Mongo Spatial on OpenShift](https://openshift.redhat.com/community/blogs/spatial-mongodb-in-openshift-be-the-next-foursquare-part-1)
+[Mongo Spatial on OpenShift](https://www.openshift.com/blogs/spatial-mongodb-in-openshift-be-the-next-foursquare-part-1)
 
 Now, ssh into the application.
 

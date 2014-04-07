@@ -11,13 +11,13 @@ Create an account at https://www.openshift.com
 
 Create a python application with MongoDB
 
-    rhc app create pythonws python-2.6 mongodb-2 --from-code git://github.com/openshift/openshift-mongo-flask-example.git
+    rhc app create pythonws python-2.6 mongodb-2 --from-code git://github.com/openshift-quickstart/openshift-mongo-flask-example.git
     
 or you can do this
 
     rhc app create pythonws python-2.6 mongodb-2
     cd pythonws
-    git remote add upstream -m master git://github.com/openshift/openshift-mongo-flask-example.git
+    git remote add upstream -m master git://github.com/openshift-quickstart/openshift-mongo-flask-example.git
     git pull -s recursive -X theirs upstream master
     git push
     

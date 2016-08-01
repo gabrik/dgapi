@@ -10,4 +10,4 @@ try:
 except IOError:
 	pass
  
-from apiapp import app as application
+from dgapi import app as application

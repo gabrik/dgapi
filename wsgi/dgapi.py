@@ -50,7 +50,6 @@ def test():
 @app.route('/register',methods=['POST'])
 def register():
 
-
     username=request.form.get('name')
     id_user=request.form.get('id')
     car_model=request.form.get('car_model')
@@ -66,29 +65,31 @@ def register():
     "car_fuel":car_fuel,
     "fuelings":[]}
 
-
     users=db.users
     return_value = users.insert_one(user).inserted_id
-
     response={'request_id':id_user,'result':str(return_value)}
-
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
 
 @app.route('/login',methods=['POST'])
 def login():
-    return 'ok'
+    client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db=client[os.environ['OPENSHIFT_APP_NAME']]
+    users=db.users
+    id_user=request.form.get('id')
+    user=users.find_one({"id": id_user})
+    if user == None:
+        response={'request_id':id_user,result:False}
+    else:
+        response={'request_id':id_user,result:str(user._id)}
+        
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
+    
+        
 
     
 
 if __name__ == "__main__":
     app.run()
 
-''' 
-params.put("name", DGConfigu
- params.put("id",DGConfigurat
- params.put("car_model",DGCon
- params.put("car_manufacture"
- params.put("car_fuel",DGConf
- '''

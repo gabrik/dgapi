@@ -80,10 +80,10 @@ def login():
     id_user=request.form.get('id')
     user=users.find_one({"id": id_user})
     if user == None:
-        response={'request_id':id_user,result:False}
+        response={'request_id':id_user,'result':False}
     else:
-        response={'request_id':id_user,result:str(user._id)}
-        
+        response={'request_id':id_user,'result':str(user._id)}
+
     return Response(json.dumps(response,indent=None),mimetype='application/json')
     
         

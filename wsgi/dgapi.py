@@ -45,7 +45,7 @@ def put_fuelings():
         response={'request_id':id_user,'result':False}
     else:
         user['fuelings'].append(fuelings)
-        result=users.update_one(user,upsert=False, multi=False).modified_count
+        result=users.update_one({"id": id_user},user).modified_count
         response={'request_id':id_user,'result':result}
     
     return Response(json.dumps(response,indent=None),mimetype='application/json')

@@ -36,11 +36,19 @@ def index():
 @app.route('/put_fuelings',methods=['POST'])
 def put_fuelings():
     fuelings=request.form.get('fuel')
-    user_id=request.form.get('user')
-    print fuelings
-    print user_id
-
-    return "ok"
+    id_user=request.form.get('id')
+    client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db=client[os.environ['OPENSHIFT_APP_NAME']]
+    users=db.users
+    user=users.find_one({"id": id_user})
+    if user == None:
+        response={'request_id':id_user,'result':False}
+    else:
+        user['fuelings'].append(fuelings)
+        result=users.update_one(user).modified_count
+        response={'request_id':id_user,'result':result}
+    
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 @app.route('/get_fuelings',methods=['POST'])
 def test():

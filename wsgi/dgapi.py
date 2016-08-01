@@ -2,12 +2,10 @@
 import os
 from flask import Flask
 from flask import request
-import pymongo
+from flask import Response
 import json
-from bson import json_util
-from bson import objectid
-import re
 from pymongo import MongoClient
+
 
 
 app = Flask(__name__)
@@ -74,7 +72,7 @@ def register():
 
     response={'request_id':id_user,'result':str(return_value)}
 
-    return json.dumps(response,indent=None)
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
 

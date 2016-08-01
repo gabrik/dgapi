@@ -52,8 +52,19 @@ def put_fuelings():
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 @app.route('/get_fuelings',methods=['POST'])
-def test():
-    return "ok"
+def get_fuelings():
+    id_user=request.form.get('id')
+    client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db=client[os.environ['OPENSHIFT_APP_NAME']]
+    users=db.users
+    user=users.find_one({"id": id_user})
+    if user == None:
+        response={'request_id':id_user,'result':False}
+    else:
+        fuelings=user['fuelings']
+        response={'request_id':id_user,'result':json.dumps(fuelings)}
+    
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
 @app.route('/register',methods=['POST'])

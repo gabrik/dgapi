@@ -44,7 +44,7 @@ def put_fuelings():
     if user == None:
         response={'request_id':id_user,'result':False}
     else:
-        user['fuelings'].append(fuelings)
+        user['fuelings'].append(fuelings,upsert=False, multi=False)
         result=users.update_one(user).modified_count
         response={'request_id':id_user,'result':result}
     

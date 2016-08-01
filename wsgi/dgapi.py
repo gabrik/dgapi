@@ -35,7 +35,7 @@ def index():
 
 @app.route('/put_fuelings',methods=['POST'])
 def put_fuelings():
-    fuelings=request.form.get('fuel')
+    fuelings=json.load(request.form.get('fuel'))
     id_user=request.form.get('id')
     client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db=client[os.environ['OPENSHIFT_APP_NAME']]

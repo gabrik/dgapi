@@ -72,7 +72,7 @@ def register():
     users=db.users
     return_value = users.insert_one(user).inserted_id
 
-    return {'request_id':id_user,'result':return_value}
+    return {'request_id':id_user,'result':str(return_value)}
 
 
 

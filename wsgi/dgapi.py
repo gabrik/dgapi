@@ -102,7 +102,7 @@ def login():
     if user == None:
         response={'request_id':id_user,'result':False}
     else:
-        response={'request_id':id_user,'result':str(user['_id'])}
+        response={'request_id':id_user,'result':json.dumps(user,indent=None)}
 
     return Response(json.dumps(response,indent=None),mimetype='application/json')
     

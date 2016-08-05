@@ -45,7 +45,10 @@ def put_fuelings():
         response={'request_id':id_user,'result':False}
     else:
         new_fuelings=user['fuelings']
-        new_fuelings.append(fuelings)
+        if type(fuelings) is list:
+            new_fuelings=new_fuelings+fuelings
+        if type(fuelings) is dict:
+            new_fuelings.append(fuelings)
         result=users.update_one({"id": id_user},{'$set':{'fuelings': new_fuelings }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
     

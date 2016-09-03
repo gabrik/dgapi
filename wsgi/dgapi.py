@@ -6,6 +6,7 @@ from flask import Response
 #import sys
 #sys.path.append('../')
 #from utils import *
+import logging
 import json
 from pymongo import MongoClient
 
@@ -224,5 +225,6 @@ def get_car(cars,id_car):
     
 
 if __name__ == "__main__":
+    logging.warning('Start!!!')
     app.run()
 

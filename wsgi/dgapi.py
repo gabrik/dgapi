@@ -109,7 +109,7 @@ def del_fuelings():
         response={'request_id':id_user,'result':False}
     else:
         cars=user['cars']
-        delete_fuelings(cars,fuelings)
+        #delete_fuelings(cars,fuelings)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}

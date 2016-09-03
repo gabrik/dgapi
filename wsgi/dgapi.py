@@ -131,14 +131,14 @@ def del_cars():
     if user == None:
         response={'request_id':id_user,'result':False}
     else:
-        new_cars=user['cars']
+        old_cars=user['cars']
         if type(cars) is list:
             for c in cars:
-                new_cars.remove(c)
+                old_cars.remove(c)
         if type(cars) is dict:
-            new_cars.remove(cars)
+            new_old_carscars.remove(cars)
         
-        result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
+        result=users.update_one({"id": id_user},{'$set':{'cars': old_cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
     
     return Response(json.dumps(response,indent=None),mimetype='application/json')
@@ -160,7 +160,6 @@ def add_cars():
         old_cars=user['cars']
         val = str(any(d['id_car'] == cars['id_car'] for d in old_cars))
         return Response(val,mimetype='application/json')
-        ''''
         if type(cars) is list:
             for c in cars:
                 if not any(d['id_car'] == c['id_car'] for d in old_cars):
@@ -169,10 +168,10 @@ def add_cars():
             if not any(d['id_car'] == cars['id_car'] for d in old_cars):
                 old_cars.append(cars)
         
-        result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
+        result=users.update_one({"id": id_user},{'$set':{'cars': old_cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
     
-    return Response(json.dumps(response,indent=None),mimetype='application/json')'''
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
 

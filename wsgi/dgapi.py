@@ -47,7 +47,7 @@ def put_fuelings():
     if user == None:
         response={'request_id':id_user,'result':False}
     else:
-        cars=utils['cars']
+        cars=user['cars']
         if cars == None:
             response={'request_id':id_user,'result':False}
         else:

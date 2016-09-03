@@ -58,12 +58,8 @@ def delete_cars(old_cars,cars):
             old_cars.remove(c)
     if type(cars) is dict:
         old_cars.remove(cars)
-    
-    return old_cars
-
 
 def adding_cars(old_cars,cars):
-    print type(old_cars)
     if type(cars) is list:
         for c in cars:
             if c not in old_cars:
@@ -71,7 +67,5 @@ def adding_cars(old_cars,cars):
     if type(cars) is dict:
         if cars not in old_cars:
             old_cars.append(cars)
-
-    return old_cars
 
         

@@ -111,7 +111,7 @@ def del_cars():
         response={'request_id':id_user,'result':False}
     else:
         new_cars=user['cars']
-        user['cars']=delete_cars(new_cars,cars)
+        delete_cars(new_cars,cars)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
@@ -132,7 +132,7 @@ def add_cars():
         response={'request_id':id_user,'result':False}
     else:
         old_cars=user['cars']
-        user['cars']=adding_cars(old_cars,cars)
+        adding_cars(old_cars,cars)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}

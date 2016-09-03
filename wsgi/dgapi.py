@@ -158,10 +158,10 @@ def add_cars():
         old_cars=user['cars']
         if type(cars) is list:
             for c in cars:
-                if c not in old_cars:
+                if not any(d['id_car'] == c['ID'] for d in old_cars):
                     old_cars.append(c)
         if type(cars) is dict:
-            if cars not in old_cars:
+            if not any(d['id_car'] == cars['ID'] for d in old_cars):
                 old_cars.append(cars)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count

@@ -167,7 +167,6 @@ def add_cars():
         if type(cars) is dict:
             if not any(d['id_car'] == cars['id_car'] for d in old_cars):
                 old_cars.append(cars)
-        
         result=users.update_one({"id": id_user},{'$set':{'cars': old_cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
     

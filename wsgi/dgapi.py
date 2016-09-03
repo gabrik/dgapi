@@ -3,9 +3,9 @@ import os
 from flask import Flask
 from flask import request
 from flask import Response
-import sys
-sys.path.append('../')
-from utils import *
+#import sys
+#sys.path.append('../')
+#from utils import *
 import json
 from pymongo import MongoClient
 
@@ -51,7 +51,27 @@ def put_fuelings():
         if cars == None:
             response={'request_id':id_user,'result':False}
         else:
-            update_fuelings(cars,fuelings)
+            if type(fuelings) is list:
+                for f in fuelings:
+                    car=get_car(cars,f['CarID'])
+                    if car != None:
+                        new_fuelings=car['fuelings']
+                        if any(d['ID'] == f['ID'] for d in new_fuelings):
+                            position=[d['ID'] == f['ID'] for d in new_fuelings].index(True)
+                            new_fuelings[position]=f
+                        else:
+                            new_fuelings.append(f)
+
+            if type(fuelings) is dict:
+                car=get_car(cars,fuelings['CarID'])
+                new_fuelings=car['fuelings']
+                if car != None:
+                    if any(d['ID'] == fuelings['ID'] for d in new_fuelings):
+                        position=[d['ID'] == fuelings['ID'] for d in new_fuelings].index(True)
+                        new_fuelings[position]=fuelings
+                    else:
+                        new_fuelings.append(fuelings)
+
 
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
@@ -111,7 +131,11 @@ def del_cars():
         response={'request_id':id_user,'result':False}
     else:
         new_cars=user['cars']
-        delete_cars(new_cars,cars)
+        if type(cars) is list:
+            for c in cars:
+                new_cars.remove(c)
+        if type(cars) is dict:
+            new_cars.remove(cars)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
@@ -132,7 +156,13 @@ def add_cars():
         response={'request_id':id_user,'result':False}
     else:
         old_cars=user['cars']
-        adding_cars(old_cars,cars)
+        if type(cars) is list:
+            for c in cars:
+                if c not in old_cars:
+                    old_cars.append(c)
+        if type(cars) is dict:
+            if cars not in old_cars:
+                old_cars.append(cars)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
@@ -183,6 +213,14 @@ def login():
     
         
 
+
+
+def get_car(cars,id_car):
+    if any(d['id_car'] == id_car for d in cars):
+        position=[d['id_car'] == id_car for d in cars].index(True)
+        return cars[position]
+    else:
+        return None
     
 
 if __name__ == "__main__":

@@ -62,7 +62,7 @@ def delete_cars(old_cars,cars):
     return old_cars
 
 
-def add_cars(old_cars,cars):
+def adding_cars(old_cars,cars):
     if type(cars) is list:
         for c in cars:
             if c not in old_cars:

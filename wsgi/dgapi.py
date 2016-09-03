@@ -158,8 +158,6 @@ def add_cars():
         response={'request_id':id_user,'result':False}
     else:
         old_cars=user['cars']
-        val = str(any(d['id_car'] == cars['id_car'] for d in old_cars))
-        return Response(val,mimetype='application/json')
         if type(cars) is list:
             for c in cars:
                 if not any(d['id_car'] == c['id_car'] for d in old_cars):

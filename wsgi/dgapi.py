@@ -225,6 +225,6 @@ def get_car(cars,id_car):
     
 
 if __name__ == "__main__":
-    logging.warning('Start!!!')
+    aap.logger.warning('Start!!!')
     app.run()
 

@@ -147,6 +147,7 @@ def del_cars():
 
 @app.route('/add_cars',methods=['POST'])
 def add_cars():
+    app.logger.warning('add cars!!!')
     id_user=request.form.get('id')
     cars=json.loads(request.form.get('car'))
     client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
@@ -225,6 +226,7 @@ def get_car(cars,id_car):
     
 
 if __name__ == "__main__":
-    aap.logger.warning('Start!!!')
+    app.config['PROPAGATE_EXCEPTIONS'] = True
+    app.logger.warning('Start!!!')
     app.run()
 

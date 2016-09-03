@@ -67,7 +67,7 @@ def get_fuelings():
         response={'request_id':id_user,'result':False}
     else:
         cars=user['cars']
-        response={'request_id':id_user,'result':json.dumps(fuelings)}
+        response={'request_id':id_user,'result':json.dumps(cars)}
     
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 

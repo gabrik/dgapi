@@ -3,6 +3,8 @@ import os
 from flask import Flask
 from flask import request
 from flask import Response
+import sys
+sys.path.append('../')
 from utils import *
 import json
 from pymongo import MongoClient

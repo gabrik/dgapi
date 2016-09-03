@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from flask import request
 from flask import Response
+from utils import *
 import json
 from pymongo import MongoClient
 
@@ -44,12 +45,13 @@ def put_fuelings():
     if user == None:
         response={'request_id':id_user,'result':False}
     else:
-        new_fuelings=user['fuelings']
-        if type(fuelings) is list:
-            new_fuelings=new_fuelings+fuelings
-        if type(fuelings) is dict:
-            new_fuelings.append(fuelings)
-        result=users.update_one({"id": id_user},{'$set':{'fuelings': new_fuelings }}).modified_count
+        cars=utils['cars']
+        if cars == None:
+            response={'request_id':id_user,'result':False}
+        else:
+            utils.update_fuelings(cars,fuelings)
+
+        result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
     
     return Response(json.dumps(response,indent=None),mimetype='application/json')
@@ -60,14 +62,83 @@ def get_fuelings():
     client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db=client[os.environ['OPENSHIFT_APP_NAME']]
     users=db.users
-    user=users.find_one({"id": id_user})
+    user=users.find_one({"id": id_user})    
     if user == None:
         response={'request_id':id_user,'result':False}
     else:
-        fuelings=user['fuelings']
+        cars=user['cars']
         response={'request_id':id_user,'result':json.dumps(fuelings)}
     
     return Response(json.dumps(response,indent=None),mimetype='application/json')
+
+
+
+
+
+@app.route('/del_fuelings',methods=['POST'])
+def del_fuelings():
+    id_user=request.form.get('id')
+    fuelings=json.loads(request.form.get('fuel'))
+    client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db=client[os.environ['OPENSHIFT_APP_NAME']]
+    users=db.users
+    user=users.find_one({"id": id_user})    
+    if user == None:
+        response={'request_id':id_user,'result':False}
+    else:
+        cars=user['cars']
+        utils.delete_fuelings(cars,fuelings)
+        
+        result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
+        response={'request_id':id_user,'result':str(user['_id'])}
+    
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
+
+
+
+
+@app.route('/del_cars',methods=['POST'])
+def del_cars():
+    id_user=request.form.get('id')
+    cars=json.loads(request.form.get('car'))
+    client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db=client[os.environ['OPENSHIFT_APP_NAME']]
+    users=db.users
+    user=users.find_one({"id": id_user})    
+    if user == None:
+        response={'request_id':id_user,'result':False}
+    else:
+        new_cars=user['cars']
+        user['cars']=utils.delete_cars(new_cars,cars)
+        
+        result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
+        response={'request_id':id_user,'result':str(user['_id'])}
+    
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
+
+
+
+@app.route('/add_cars',methods=['POST'])
+def add_cars():
+    id_user=request.form.get('id')
+    cars=json.loads(request.form.get('car'))
+    client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db=client[os.environ['OPENSHIFT_APP_NAME']]
+    users=db.users
+    user=users.find_one({"id": id_user})    
+    if user == None:
+        response={'request_id':id_user,'result':False}
+    else:
+        old_cars=user['cars']
+        user['cars']=utils.add_cars(old_cars,cars)
+        
+        result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
+        response={'request_id':id_user,'result':str(user['_id'])}
+    
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
+
+
+
 
 
 @app.route('/register',methods=['POST'])
@@ -75,18 +146,16 @@ def register():
 
     username=request.form.get('name')
     id_user=request.form.get('id')
+    '''
     car_model=request.form.get('car_model')
     car_manufacture=request.form.get('car_manufacture')
     car_fuel=request.form.get('car_fuel')
-
+    '''
     client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db=client[os.environ['OPENSHIFT_APP_NAME']]
     user={"Name": username,
     "id":id_user, 
-    "car_model":car_model ,
-    "car_manufacture": car_manufacture,
-    "car_fuel":car_fuel,
-    "fuelings":[]}
+    "cars":[]}
 
     users=db.users
     return_value = users.insert_one(user).inserted_id

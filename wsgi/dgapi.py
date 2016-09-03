@@ -158,6 +158,9 @@ def add_cars():
         response={'request_id':id_user,'result':False}
     else:
         old_cars=user['cars']
+        val = json.dumps(old_cars,indent=2)+" "+json.dumps(cars,indent=2)
+        return Response(val,mimetype='application/json')
+        ''''
         if type(cars) is list:
             for c in cars:
                 if not any(d['id_car'] == c['id_car'] for d in old_cars):
@@ -169,7 +172,7 @@ def add_cars():
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
     
-    return Response(json.dumps(response,indent=None),mimetype='application/json')
+    return Response(json.dumps(response,indent=None),mimetype='application/json')'''
 
 
 

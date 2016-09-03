@@ -158,7 +158,7 @@ def add_cars():
         response={'request_id':id_user,'result':False}
     else:
         old_cars=user['cars']
-        val = json.dumps(old_cars,indent=2)+" "+json.dumps(cars,indent=2)
+        val = json.dumps(cars,indent=2)
         return Response(val,mimetype='application/json')
         ''''
         if type(cars) is list:

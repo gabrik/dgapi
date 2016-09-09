@@ -239,7 +239,7 @@ def delete_fuelings(cars,fuelings):
                 new_fuelings=car['fuelings']
                 if any(d['ID'] == f['ID'] for d in new_fuelings):
                     position=[d['ID'] == f['ID'] for d in new_fuelings].index(True)
-                    new_fuelings.remove(position)
+                    new_fuelings.pop(position)
 
                     
     if type(fuelings) is dict:
@@ -248,4 +248,4 @@ def delete_fuelings(cars,fuelings):
         if car != None:
             if any(d['ID'] == fuelings['ID'] for d in new_fuelings):
                 position=[d['ID'] == fuelings['ID'] for d in new_fuelings].index(True)
-                new_fuelings.remove(position)
+                new_fuelings.pop(position)

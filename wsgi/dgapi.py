@@ -134,11 +134,11 @@ def del_cars():
         old_cars=user['cars']
         if type(cars) is list:
             for c in cars:
-                car=get_car(old_cars,c['id_car'])
+                car=get_car_position(old_cars,c['id_car'])
                 if car != None:
                     old_cars.pop(c)
         if type(cars) is dict:
-            car=get_car(old_cars,cars['id_car'])
+            car=get_car_position(old_cars,cars['id_car'])
             if car != None:
                     old_cars.pop(cars)
             
@@ -220,7 +220,12 @@ def login():
     
         
 
-
+def get_car_position(cars,id_car):
+    if any(d['id_car'] == id_car for d in cars):
+        position=[d['id_car'] == id_car for d in cars].index(True)
+        return position
+    else:
+        return None
 
 def get_car(cars,id_car):
     if any(d['id_car'] == id_car for d in cars):

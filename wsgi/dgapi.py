@@ -136,10 +136,12 @@ def del_cars():
             for c in cars:
                 car=get_car(old_cars,c['id_car'])
                 if car != None:
-                    old_cars.remove(c)
+                    old_cars.pop(c)
         if type(cars) is dict:
-            old_cars.remove(cars)
-        
+            car=get_car(old_cars,cars['id_car'])
+             if car != None:
+                    old_cars.pop(cars)
+            
         result=users.update_one({"id": id_user},{'$set':{'cars': old_cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
     

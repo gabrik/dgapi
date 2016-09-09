@@ -110,7 +110,7 @@ def del_fuelings():
         response={'request_id':id_user,'result':False}
     else:
         cars=user['cars']
-        #delete_fuelings(cars,fuelings)
+        delete_fuelings(cars,fuelings)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}
@@ -231,3 +231,21 @@ if __name__ == "__main__":
     app.logger.warning('Start!!!')
     app.run()
 
+def delete_fuelings(cars,fuelings):
+    if type(fuelings) is list:
+        for f in fuelings:
+            car=get_car(cars,f['CarID'])
+            if car != None:
+                new_fuelings=car['fuelings']
+                if any(d['ID'] == f['ID'] for d in new_fuelings):
+                    position=[d['ID'] == f['ID'] for d in new_fuelings].index(True)
+                    new_fuelings.remove(position)
+
+                    
+    if type(fuelings) is dict:
+        car=get_car(cars,fuelings['CarID'])
+        new_fuelings=car['fuelings']
+        if car != None:
+            if any(d['ID'] == fuelings['ID'] for d in new_fuelings):
+                position=[d['ID'] == fuelings['ID'] for d in new_fuelings].index(True)
+                new_fuelings.remove(position)

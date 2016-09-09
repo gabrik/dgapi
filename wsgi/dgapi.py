@@ -134,7 +134,9 @@ def del_cars():
         old_cars=user['cars']
         if type(cars) is list:
             for c in cars:
-                old_cars.remove(c)
+                car=get_car(old_cars,c['id_car'])
+                if car != None:
+                    old_cars.remove(c)
         if type(cars) is dict:
             old_cars.remove(cars)
         

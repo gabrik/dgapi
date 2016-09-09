@@ -136,7 +136,7 @@ def del_cars():
             for c in cars:
                 old_cars.remove(c)
         if type(cars) is dict:
-            new_old_carscars.remove(cars)
+            old_cars.remove(cars)
         
         result=users.update_one({"id": id_user},{'$set':{'cars': old_cars }}).modified_count
         response={'request_id':id_user,'result':str(user['_id'])}

@@ -197,7 +197,12 @@ def register():
     "cars":[]}
 
     users=db.users
-    return_value = users.insert_one(user).inserted_id
+    if not any(u['id'] == user['id'] for u in users):
+        return_value = users.insert_one(user).inserted_id
+    else:
+        return_value = -1
+
+    
     response={'request_id':id_user,'result':str(return_value)}
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 

@@ -202,7 +202,6 @@ def register():
     else:
         return_value = -1
 
-    
     response={'request_id':id_user,'result':str(return_value)}
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 

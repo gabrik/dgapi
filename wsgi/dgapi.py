@@ -197,7 +197,10 @@ def register():
     "cars":[]}
 
     users=db.users
-    if not any(u['id'] == user['id'] for u in users):
+
+    u=users.find_one({"id": id_user})  
+
+    if u!=None:
         return_value = users.insert_one(user).inserted_id
     else:
         return_value = -1

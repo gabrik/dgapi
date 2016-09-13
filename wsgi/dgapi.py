@@ -200,7 +200,7 @@ def register():
 
     u=users.find_one({"id": id_user})  
 
-    if u!=None:
+    if u==None:
         return_value = users.insert_one(user).inserted_id
     else:
         return_value = -1

@@ -177,8 +177,8 @@ def add_cars():
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
-@app.route('/put_cost',methods=['POST'])
-def put_fuelings():
+@app.route('/put_costs',methods=['POST'])
+def put_costs():
     costs=json.loads(request.form.get('cost'))
     id_user=request.form.get('id')
     client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])

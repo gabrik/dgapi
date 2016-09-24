@@ -177,7 +177,57 @@ def add_cars():
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
+@app.route('/put_cost',methods=['POST'])
+def put_fuelings():
+    costs=json.loads(request.form.get('cost'))
+    id_user=request.form.get('id')
+    client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db=client[os.environ['OPENSHIFT_APP_NAME']]
+    users=db.users
+    user=users.find_one({"id": id_user})
+    if user == None:
+        response={'request_id':id_user,'result':False}
+    else:
+        cars=user['cars']
+        if cars == None:
+            response={'request_id':id_user,'result':False}
+        else:
+            if type(costs) is list:
+                for c in costs:
+                    car=get_car(cars,f['CarID'])
+                    if car != None:
+                        old_costs=car.get('costs',None)
+                        if old_costs==None:
+                            car['costs']=[]
+                            old_costs=car['costs']
+                        
+                        if any(d['ID'] == f['ID'] for d in old_costs):
+                            position=[d['ID'] == f['ID'] for d in old_costs].index(True)
+                            old_costs[position]=c
+                        else:
+                            old_costs.append(f)
 
+            if type(costs) is dict:
+                car=get_car(cars,costs['CarID'])
+                if car != None:
+                    old_costs=car.get('costs',None)
+                    if old_costs==None:
+                            car['costs']=[]
+                            old_costs=car['costs']
+                            
+                            
+                    if any(d['ID'] == fuelings['ID'] for d in old_costs):
+                        position=[d['ID'] == fuelings['ID'] for d in old_costs].index(True)
+                        old_costs[position]=costs
+                    else:
+                        old_costs.append(costs)
+                    
+
+
+        result=users.update_one({"id": id_user},{'$set':{'cars': cars }}).modified_count
+        response={'request_id':id_user,'result':str(user['_id'])}
+    
+    return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
 @app.route('/register',methods=['POST'])

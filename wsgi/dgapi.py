@@ -216,8 +216,8 @@ def put_costs():
                             old_costs=car['costs']
                             
                             
-                    if any(d['ID'] == fuelings['ID'] for d in old_costs):
-                        position=[d['ID'] == fuelings['ID'] for d in old_costs].index(True)
+                    if any(d['ID'] == costs['ID'] for d in old_costs):
+                        position=[d['ID'] == costs['ID'] for d in old_costs].index(True)
                         old_costs[position]=costs
                     else:
                         old_costs.append(costs)

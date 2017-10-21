@@ -4,6 +4,8 @@
 *.pyo
 *~
 
+.vscode/*
+
 # Packages
 *.egg
 *.egg-info

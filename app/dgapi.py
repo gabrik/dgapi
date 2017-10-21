@@ -15,7 +15,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 #add this so that flask doesn't swallow error messages
 app.config['PROPAGATE_EXCEPTIONS'] = True
-
+app.config["APPLICATION_ROOT"] = "dgapi"
 
 
 #return a specific park given it's mongo _id

@@ -9,7 +9,7 @@ from flask import Response
 import logging
 import json
 from pymongo import MongoClient
-from pymongo import json_util
+#from pymongo import json_util
 
 
 app = Flask(__name__)
@@ -36,7 +36,7 @@ def onePark(parkId):
 def index():
     startpage={'error':'wrong page'}
     return json.dumps(startpage,indent=None)
-
+'''
 @app.route(BASE + '/test')
 def mongo_test():
         client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
@@ -44,7 +44,7 @@ def mongo_test():
         users = db.users
         test = users.find()
         return json.dumps(test,indent=4,default=json_util.default)
-
+'''
 @app.route(BASE +'/put_fuelings',methods=['POST'])
 def put_fuelings():
     fuelings=json.loads(request.form.get('fuel'))

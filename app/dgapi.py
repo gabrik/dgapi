@@ -9,7 +9,7 @@ from flask import Response
 import logging
 import json
 from pymongo import MongoClient
-from bson import json_util
+from pymongo import json_util
 
 
 app = Flask(__name__)

@@ -15,7 +15,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 #add this so that flask doesn't swallow error messages
 app.config['PROPAGATE_EXCEPTIONS'] = True
-app.config["APPLICATION_ROOT"] = "/dgapi"
+BASE = "/dgapi"
 
 
 #return a specific park given it's mongo _id
@@ -32,12 +32,12 @@ def onePark(parkId):
     #return str(json.dumps({'results' : list(result)},default=json_util.default))
     return parkId
 
-@app.route('/')
+@app.route(BASE +'/')
 def index():
     startpage={'error':'wrong page'}
     return json.dumps(startpage,indent=None)
 
-@app.route('/put_fuelings',methods=['POST'])
+@app.route(BASE +'/put_fuelings',methods=['POST'])
 def put_fuelings():
     fuelings=json.loads(request.form.get('fuel'))
     id_user=request.form.get('id')
@@ -79,7 +79,7 @@ def put_fuelings():
     
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
-@app.route('/get_fuelings',methods=['POST'])
+@app.route(BASE +'/get_fuelings',methods=['POST'])
 def get_fuelings():
     id_user=request.form.get('id')
     client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
@@ -98,7 +98,7 @@ def get_fuelings():
 
 
 
-@app.route('/del_fuelings',methods=['POST'])
+@app.route(BASE +'/del_fuelings',methods=['POST'])
 def del_fuelings():
     id_user=request.form.get('id')
     fuelings=json.loads(request.form.get('fuel'))
@@ -120,7 +120,7 @@ def del_fuelings():
 
 
 
-@app.route('/del_cars',methods=['POST'])
+@app.route(BASE +'/del_cars',methods=['POST'])
 def del_cars():
     id_user=request.form.get('id')
     cars=json.loads(request.form.get('car'))
@@ -149,7 +149,7 @@ def del_cars():
 
 
 
-@app.route('/add_cars',methods=['POST'])
+@app.route(BASE +'/add_cars',methods=['POST'])
 def add_cars():
     app.logger.warning('add cars!!!')
     id_user=request.form.get('id')
@@ -177,7 +177,7 @@ def add_cars():
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
-@app.route('/put_costs',methods=['POST'])
+@app.route(BASE +'/put_costs',methods=['POST'])
 def put_costs():
     costs=json.loads(request.form.get('cost'))
     id_user=request.form.get('id')
@@ -230,7 +230,7 @@ def put_costs():
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
 
-@app.route('/del_costs',methods=['POST'])
+@app.route(BASE +'/del_costs',methods=['POST'])
 def del_costs():
     id_user=request.form.get('id')
     costs=json.loads(request.form.get('cost'))
@@ -249,7 +249,7 @@ def del_costs():
     
     return Response(json.dumps(response,indent=None),mimetype='application/json')
 
-@app.route('/register',methods=['POST'])
+@app.route(BASE +'/register',methods=['POST'])
 def register():
 
     username=request.form.get('name')
@@ -279,7 +279,7 @@ def register():
 
 
 
-@app.route('/login',methods=['POST'])
+@app.route(BASE +'/login',methods=['POST'])
 def login():
     client = MongoClient(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db=client[os.environ['OPENSHIFT_APP_NAME']]
